@@ -11,13 +11,15 @@ export class AppController {
   }
 
   @Post('dockerhub-webhook')
-  async webHook(@Body() body:any){
-
+  async webHook(@Body() body: any) {
     //verify call back
     const result = await this.appService.fetch(body.callback_url, body);
-    console.log(result);
-    
-    return this.appService.webhook(body);
 
+    return this.appService.webhook(body);
+  }
+
+  @Post('webhook-testing')
+  async func(@Body() body: any) {
+    return this.appService.func(body);
   }
 }

@@ -18,13 +18,30 @@ export class AppService {
     return this.fetch(webhookURL, data);
   }
 
+  func(body: { message: string; title: string }) {
+    const webhookURL = `${process.env.WEBHOOK_URL}`;
+
+    const messages = `*${body.title}*:  ${body.message}`;
+
+    const data = JSON.stringify({
+      text: messages,
+    });
+
+    this.fetch(webhookURL, data);
+  }
+
   async fetch(webhookURL: string, data: any) {
-    return await fetch(webhookURL, {
+    let resp;
+    fetch(webhookURL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: data,
+    }).then((response) => {
+      resp = response;
+      console.log(response);
     });
+    return resp;
   }
 }
